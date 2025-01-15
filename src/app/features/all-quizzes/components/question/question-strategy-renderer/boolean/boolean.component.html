@@ -1,0 +1,9 @@
+<div class="hstack gap-2">
+    <label class="form-check" *ngFor="let possibleAnswer of possibleAnswers; trackBy: trackByPossibleAnswer"
+        (click)="setActiveAnswer(possibleAnswer)">
+        <input class="form-check-input" type="radio" name="answer">
+        <span class="form-check-label">
+            {{ possibleAnswer }}
+        </span>
+    </label>
+</div>

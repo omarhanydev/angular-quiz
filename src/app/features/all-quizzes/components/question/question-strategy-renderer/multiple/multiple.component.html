@@ -1,0 +1,6 @@
+<div class="hstack gap-2 flex-wrap">
+    <button class="btn btn-primary" *ngFor="let possibleAnswer of possibleAnswers; trackBy: trackByPossibleAnswer"
+        (click)="setActiveAnswer(possibleAnswer)">
+        {{ possibleAnswer }}
+    </button>
+</div>

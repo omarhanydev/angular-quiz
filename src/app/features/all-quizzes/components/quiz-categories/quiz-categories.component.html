@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="py-5">
+        <div class="row">
+            <div class="col-lg-3 pb-2" *ngFor="let category of categories; trackBy: trackByCategory">
+                <app-quiz-category [category]="category" (categoryClicked)="onCategoryClicked($event)"></app-quiz-category>
+            </div>
+        </div>
+    </div>
+</div>

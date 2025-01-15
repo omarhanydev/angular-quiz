@@ -1,0 +1,11 @@
+<div class="container pt-4">
+    <h3>Hello, Omar</h3>
+    <small class="text-muted">1/{{quizzes.length}} questions</small>
+    <div class="progress" role="progressbar" aria-label="Example 20px high" aria-valuenow="25" aria-valuemin="0"
+        aria-valuemax="100" style="height: 20px">
+        <div class="progress-bar" style="width: 25%"></div>
+    </div>
+</div>
+
+<app-quiz-categories [categories]="categories" (setActiveCategory)="setActiveCategory($event)"></app-quiz-categories>
+<app-quiz *ngIf="startQuiz" [questions]="activeQuestions"></app-quiz>
