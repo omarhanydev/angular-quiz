@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Quiz } from '../../../types/quiz.type';
 
 @Component({
@@ -9,9 +9,9 @@ import { Quiz } from '../../../types/quiz.type';
 export class QuestionStrategyRendererComponent {
   possibleAnswers: string[] = [];
   @Input() question!: Quiz;
+  @ViewChild('componentRef', { read: ViewContainerRef, static: true }) componentRef!: ViewContainerRef;
 
   constructor(
-    private componentRef: ViewContainerRef,
   ) { }
 
   ngOnChanges(): void {
@@ -29,8 +29,13 @@ export class QuestionStrategyRendererComponent {
   async getQuestionStrategyComponent() {
     this.componentRef.clear();
     const loadedComponent = await import(`./${this.question.type}/${this.question.type}.component`);
-    const componentInstance = this.componentRef.createComponent(loadedComponent[`${this.question.type.charAt(0).toUpperCase()}${this.question.type.slice(1)}Component`]);
-    componentInstance.setInput('possibleAnswers', this.possibleAnswers);
-    // componentInstance.onAnswerUpdated.subscribe((val: any) => console.log(val));
+    const componentClass = loadedComponent[`${this.question.type.charAt(0).toUpperCase()}${this.question.type.slice(1)}Component`];
+    const componentRef: ComponentRef<any> = this.componentRef.createComponent(componentClass);
+    componentRef.instance.possibleAnswers = this.possibleAnswers;
+    if (componentRef.instance.onAnswerUpdated) {
+      componentRef.instance.onAnswerUpdated.subscribe((val: any) => {
+        console.log('Answer updated:', val);
+      });
+    }
   }
 }
